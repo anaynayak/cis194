@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 09ac043bbea56960db366fd0f69765a949d9ffd0f0271f36d1a0e50b7c842bb9
+-- hash: 0de98cdd8e70a0d4189d2fa329da47c2b33c6a80f339e9ddce55278086e00210
 
 name:           cis194
 version:        0.1.0.0
@@ -30,12 +30,15 @@ library
       CreditCard
       Hanoi
       Lib
+      Log
+      LogAnalysis
   other-modules:
       Paths_cis194
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
+    , mtl
   default-language: Haskell2010
 
 executable cis194-exe
@@ -48,6 +51,7 @@ executable cis194-exe
   build-depends:
       base >=4.7 && <5
     , cis194
+    , mtl
   default-language: Haskell2010
 
 test-suite cis194-test
@@ -61,4 +65,5 @@ test-suite cis194-test
   build-depends:
       base >=4.7 && <5
     , cis194
+    , mtl
   default-language: Haskell2010
