@@ -1,10 +1,11 @@
 module CreditCard where
+import Data.List
+import Data.Tuple
     
 toDigits :: Integer -> [Integer]
-toDigits i | i < 10  = [i]
-toDigits i = 
-    let (num, e) = divMod i 10
-    in toDigits num ++ [e]
+toDigits = 
+    let toDigits v = if v == 0 then Nothing else Just $ swap (divMod v 10)
+    in reverse . unfoldr toDigits
 
 toDigitsRev :: Integer -> [Integer]
 toDigitsRev = reverse . toDigits
