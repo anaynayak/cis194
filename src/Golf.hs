@@ -17,7 +17,7 @@ histogram =
     let hit = flip replicate '*'
         miss = flip replicate ' '
         draw c total = hit c ++ miss (total + 1 - c)
-        maxi ns = maximum (map snd ns)
-        display ns  = map (\(n, c) -> show n ++ "=" ++ (draw c $ maxi ns)) ns 
+        display ns  = map (\(n, c) -> show n ++ "=" ++ (draw c $ maxi)) ns 
+            where maxi = maximum (map snd ns)
         counts xs = map (\n -> (n, length $ elemIndices n xs)) [0..9]
         in unlines . reverse . transpose . display . counts
