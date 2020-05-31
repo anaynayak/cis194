@@ -1,7 +1,9 @@
+{-# LANGUAGE FlexibleInstances #-}
 module Calc where
 
 import ExprT
 import Parser
+import qualified Data.Map as M
 
 eval :: ExprT -> Integer
 eval (Lit a) = a
@@ -48,3 +50,34 @@ instance Expr Mod7 where
     lit = Mod7 . flip mod 7
     add (Mod7 a) (Mod7 b) = Mod7 $ mod (a + b) 7    
     mul (Mod7 a) (Mod7 b) = Mod7 $ mod (a * b) 7
+
+
+class HasVars a where
+    var :: String -> a
+
+data VarExprT = VLit Integer
+                | VAdd VarExprT VarExprT
+                | VMul VarExprT VarExprT
+                | Var String
+                deriving (Show, Eq)
+
+instance HasVars VarExprT where
+    var = Var
+
+instance Expr VarExprT where
+    lit = VLit
+    add = VAdd
+    mul = VMul
+
+instance HasVars (M.Map String Integer -> Maybe Integer) where
+    var = M.lookup
+
+instance Expr (M.Map String Integer -> Maybe Integer) where
+    lit = const . Just
+    add f1 f2 m =  pure (+) <*> (f1 m) <*> (f2 m)
+    mul f1 f2 m = pure (*) <*> (f1 m) <*> (f2 m)
+
+
+withVars :: [(String, Integer)] -> (M.Map String Integer -> Maybe Integer) -> Maybe Integer
+withVars vs exp = exp $ M.fromList vs
+-- withVars [("x", 6)] $ add (lit 3) (var "x")

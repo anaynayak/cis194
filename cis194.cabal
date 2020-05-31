@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 25643242e169bbebfbf401c5484826105d515a8a19f9bdce24f4577857912585
+-- hash: 91842ccef771042ab8c87678bbd45a1d74317368ec6f3d23c84a3e713d15bf48
 
 name:           cis194
 version:        0.1.0.0
@@ -44,6 +44,7 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , containers
     , mtl
   default-language: Haskell2010
 
@@ -57,6 +58,7 @@ executable cis194-exe
   build-depends:
       base >=4.7 && <5
     , cis194
+    , containers
     , mtl
   default-language: Haskell2010
 
@@ -71,5 +73,6 @@ test-suite cis194-test
   build-depends:
       base >=4.7 && <5
     , cis194
+    , containers
     , mtl
   default-language: Haskell2010
