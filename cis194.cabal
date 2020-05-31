@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 91842ccef771042ab8c87678bbd45a1d74317368ec6f3d23c84a3e713d15bf48
+-- hash: f9e4c8d12bac58eb3579a3e9650a7d38e3aa4a5afde54393445d6fd099ce26b3
 
 name:           cis194
 version:        0.1.0.0
@@ -30,6 +30,7 @@ library
       Calc
       CreditCard
       ExprT
+      Fibonacci
       Golf
       Hanoi
       Lib
