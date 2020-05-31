@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 340a8a67a6f91b11088d40185570e2e796292a6ff8135107b4b5379ec86b7d16
+-- hash: 25643242e169bbebfbf401c5484826105d515a8a19f9bdce24f4577857912585
 
 name:           cis194
 version:        0.1.0.0
@@ -27,12 +27,16 @@ source-repository head
 
 library
   exposed-modules:
+      Calc
       CreditCard
+      ExprT
       Golf
       Hanoi
       Lib
       Log
       LogAnalysis
+      Parser
+      StackVM
       Wholemeal
   other-modules:
       Paths_cis194
