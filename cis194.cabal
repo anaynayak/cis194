@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 50be801cd6a9e188c33d95c95e87f6b4e79612642f57671014f3bed971f0d6a2
+-- hash: 029031bb3499c27c9f4cf9ee5a6b3a6edd7960748fa33a06b519f85bc3f11e31
 
 name:           cis194
 version:        0.1.0.0
@@ -27,18 +27,24 @@ source-repository head
 
 library
   exposed-modules:
+      Buffer
       Calc
       CreditCard
+      Editor
       ExprT
       Fibonacci
       Golf
       Hanoi
+      JoinList
       Lib
       Log
       LogAnalysis
       Matrix
       Parser
+      Sized
       StackVM
+      StringBufEditor
+      StringBuffer
       Wholemeal
   other-modules:
       Paths_cis194
