@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f9e4c8d12bac58eb3579a3e9650a7d38e3aa4a5afde54393445d6fd099ce26b3
+-- hash: 50be801cd6a9e188c33d95c95e87f6b4e79612642f57671014f3bed971f0d6a2
 
 name:           cis194
 version:        0.1.0.0
@@ -36,6 +36,7 @@ library
       Lib
       Log
       LogAnalysis
+      Matrix
       Parser
       StackVM
       Wholemeal
