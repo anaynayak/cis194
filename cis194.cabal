@@ -31,6 +31,7 @@ library
       Calc
       CreditCard
       Editor
+      Employee
       ExprT
       Fibonacci
       Golf
@@ -41,6 +42,7 @@ library
       LogAnalysis
       Matrix
       Parser
+      Party
       Scrabble
       Sized
       StackVM
