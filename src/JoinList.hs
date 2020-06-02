@@ -69,6 +69,8 @@ instance Buffer (JoinList (Score, Size) String) where
     replaceLine n l b = takeJ (n-1) b +++ (Single (scoreString l, Size 1) l) +++ dropJ n b
     numLines = getSize . size
     value b = let (Score i) = (fst . tag) b in i
-    fromString ls = foldr (\x acc -> acc) Empty (map (\l -> Single (scoreString l, Size 1)) (lines ls))
+    fromString ls = 
+        let joinlist l = Single (scoreString l, Size 1) l
+        in foldr (mappend . joinlist) Empty (lines ls)
 
   
