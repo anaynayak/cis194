@@ -4,14 +4,15 @@ module Calc where
 import ExprT
 import Parser
 import qualified Data.Map as M
+import Control.Applicative
 
 eval :: ExprT -> Integer
 eval (Lit a) = a
 eval (Add a b) = (eval a) + (eval b)
-eval (Mul a b) = (eval a) * (eval b) 
+eval (Mul a b) = (eval a) * (eval b)
 
 evalStr :: String -> Maybe Integer
-evalStr = fmap eval . parseExp Lit Add Mul 
+evalStr = fmap eval . parseExp Lit Add Mul
 
 class Expr a where
     lit :: Integer -> a
@@ -40,7 +41,7 @@ instance Ord MinMax where
 
 instance Expr MinMax where
     lit = MinMax
-    add = max 
+    add = max
     mul = min
 
 newtype Mod7 = Mod7 Integer deriving (Eq, Show)
@@ -48,7 +49,7 @@ newtype Mod7 = Mod7 Integer deriving (Eq, Show)
 
 instance Expr Mod7 where
     lit = Mod7 . flip mod 7
-    add (Mod7 a) (Mod7 b) = Mod7 $ mod (a + b) 7    
+    add (Mod7 a) (Mod7 b) = Mod7 $ mod (a + b) 7
     mul (Mod7 a) (Mod7 b) = Mod7 $ mod (a * b) 7
 
 
@@ -74,8 +75,8 @@ instance HasVars (M.Map String Integer -> Maybe Integer) where
 
 instance Expr (M.Map String Integer -> Maybe Integer) where
     lit = const . Just
-    add f1 f2 m =  pure (+) <*> (f1 m) <*> (f2 m)
-    mul f1 f2 m = pure (*) <*> (f1 m) <*> (f2 m)
+    add f1 f2 m = liftA2 (+) (f1 m) (f2 m)
+    mul f1 f2 m = liftA2 (*) (f1 m) (f2 m)
 
 
 withVars :: [(String, Integer)] -> (M.Map String Integer -> Maybe Integer) -> Maybe Integer

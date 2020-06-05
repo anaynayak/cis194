@@ -11,9 +11,9 @@ toDigitsRev :: Integer -> [Integer]
 toDigitsRev = reverse . toDigits
 
 doubleEveryOther :: [Integer] -> [Integer]
-doubleEveryOther [] = []
-doubleEveryOther xs@(x: xss) | even $ length xs = x * 2 : doubleEveryOther xss
-doubleEveryOther (x: xs) = x: doubleEveryOther xs
+doubleEveryOther = foldr double [] where
+    double x xs | odd $ length xs = x : xs
+    double x xs = x * 2 : xs
 
 sumDigits :: [Integer] -> Integer
 sumDigits = sum . concat . (map toDigits) 
