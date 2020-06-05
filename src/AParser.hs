@@ -57,3 +57,25 @@ posInt = Parser f
 ------------------------------------------------------------
 -- Your code goes below here
 ------------------------------------------------------------
+
+first :: (a -> b) -> (a, c) -> (b, c)
+first f (a, c) = (f a, c)
+
+instance Functor Parser where
+  fmap f (Parser a) = Parser (fmap (first f) . a)
+
+instance Applicative Parser where
+  pure a = Parser (\s -> Just (a , s))
+  (<*>) pa2b pa = Parser fn where
+    fn s = case runParser pa2b s of
+      Nothing -> Nothing
+      Just (f, s2) -> runParser (f <$> pa) s2
+
+abParser :: Parser (Char, Char)
+abParser = pure (,) <*> char 'a' <*> char 'b'
+
+abParser_ :: Parser ()
+abParser_ = pure (const ()) <*> abParser
+
+intPair :: Parser [Integer]
+intPair = pure (\a b c -> a:[c]) <*> posInt <*> char ' ' <*> posInt

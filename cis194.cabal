@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 4cc879fa09390d8deab36f0517e476c4bce70fbddf1202cb1d092c1c54705244
+-- hash: f7ae3091dc779972a385c0955e51474cb12738c0dfc0f0606332d113ac8b1e32
 
 name:           cis194
 version:        0.1.0.0
@@ -27,6 +27,7 @@ source-repository head
 
 library
   exposed-modules:
+      AParser
       Buffer
       Calc
       CreditCard
