@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f7ae3091dc779972a385c0955e51474cb12738c0dfc0f0606332d113ac8b1e32
+-- hash: cb1bddbf26f8a886222dec385a7ce59aeb8ea18ca4acb57675ab982329a8f5a4
 
 name:           cis194
 version:        0.1.0.0
@@ -45,6 +45,7 @@ library
       Parser
       Party
       Scrabble
+      SExpr
       Sized
       StackVM
       StringBufEditor
