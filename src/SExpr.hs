@@ -47,3 +47,12 @@ data Atom = N Integer | I Ident
 data SExpr = A Atom
            | Comb [SExpr]
   deriving Show
+
+parseSExpr :: Parser SExpr
+parseSExpr = wrap expr where
+  wrap x = spaces *> x <* spaces
+  expr = wrap (atom <|> comb)
+  atom = intx <|> identx
+  intx = A . N <$> wrap posInt
+  identx = A . I <$> wrap ident
+  comb = Comb <$> (char '(' *> oneOrMore expr <* char ')')

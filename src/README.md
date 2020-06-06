@@ -31,3 +31,13 @@
 # Week 8 IO
 
 [Party.hs](Party.hs) `uncurry` and `bind` . `foldMap` instead of `mconcat` and `map`
+
+# Week 9 Functor
+
+# Week 10 Applicative 1
+
+[AParser.hs](AParser.hs) `Applicative` and `Alternative` instances
+
+# Week 11 Applicative 2
+
+[SExpr.hs](SExpr.hs) `*>` , `<*` and `<|>` 
