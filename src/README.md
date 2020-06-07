@@ -40,4 +40,8 @@
 
 # Week 11 Applicative 2
 
-[SExpr.hs](SExpr.hs) `*>` , `<*` and `<|>` 
+[SExpr.hs](SExpr.hs) `*>` , `<*` and `<|>`
+
+# Week 12 Monad
+
+[Risk.hs](Risk.hs) `replicateM` , `bimap` and `>>=`
