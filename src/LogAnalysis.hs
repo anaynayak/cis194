@@ -4,22 +4,21 @@ import Log
 import Text.Read
 import Control.Monad
 import Data.Maybe
+import AParser
+import Control.Applicative
 
 parseMessage :: String -> LogMessage
-parseMessage s =
-    let (maybeMtype, s1) = parseType $ words s
-        (maybeTs, s2) = parseTs s1
-        lm = liftM3 LogMessage maybeMtype maybeTs (Just $ unwords s2)
-    in fromMaybe (Unknown s) lm
-
-parseType :: [String] -> (Maybe MessageType, [String])
-parseType ("I":xs) = (Just Info, xs)
-parseType ("W":xs) = (Just Warning, xs)
-parseType s@("E":code:rest) = (Error <$> readMaybe code, rest)
-parseType s = (Nothing, s)
-
-parseTs :: [String] -> (Maybe TimeStamp, [String])
-parseTs (x:xs) = (readMaybe x, xs)
+parseMessage s = fromMaybe (Unknown s) (pure fst <*> runParser logMessage s) where
+    logMessage = parseError <|> parseInfo <|> parseWarn
+    parseLogMessage code = liftA3 LogMessage parseECode parseTs parseMsg
+    parseError = liftA3 LogMessage parseECode parseTs parseMsg
+    parseInfo = liftA3 LogMessage parseICode parseTs parseMsg
+    parseWarn = liftA3 LogMessage parseWCode parseTs parseMsg
+    parseECode = ( Error . fromInteger) <$> (char 'E' *> char ' ' *> posInt)
+    parseICode = char 'I' *> pure Info
+    parseWCode = char 'W' *> pure Warning
+    parseTs = fromInteger <$> (char ' ' *> posInt)
+    parseMsg = many <$> satisfy $ const True
 
 parse :: String -> [LogMessage]
 parse = map parseMessage . lines

@@ -4,7 +4,7 @@
 
 # Week 2 ADT
 
-[LogAnalysis.hs](LogAnalysis.hs) using `liftM3`, `Ord` instance. Need to check with a State monad.
+[LogAnalysis.hs](LogAnalysis.hs) using `liftA3` , `*>` , `<|>` and `<$>`
 
 # Week 3 Recursion
 
