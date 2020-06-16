@@ -3,20 +3,23 @@ module LogAnalysis where
 import Log
 import Text.Read
 import Control.Monad
+import Data.Functor
 import Data.Maybe
 import AParser
 import Control.Applicative
 
 parseMessage :: String -> LogMessage
-parseMessage s = fromMaybe (Unknown s) (pure fst <*> runParser logMessage s) where
-    logMessage = parseError <|> parseInfo <|> parseWarn
+parseMessage str = fromJust  $ runLogMessageParser str where
+    runLogMessageParser s = fst <$> runParser logMessage s
+    logMessage = parseError <|> parseInfo <|> parseWarn <|> parseUnknown
+    parseUnknown = fmap Unknown parseMsg
     parseLogMessage code = liftA3 LogMessage parseECode parseTs parseMsg
     parseError = liftA3 LogMessage parseECode parseTs parseMsg
     parseInfo = liftA3 LogMessage parseICode parseTs parseMsg
     parseWarn = liftA3 LogMessage parseWCode parseTs parseMsg
-    parseECode = ( Error . fromInteger) <$> (char 'E' *> char ' ' *> posInt)
-    parseICode = char 'I' *> pure Info
-    parseWCode = char 'W' *> pure Warning
+    parseECode = Error . fromInteger <$> (char 'E' *> char ' ' *> posInt)
+    parseICode = char 'I' $> Info
+    parseWCode = char 'W' $> Warning
     parseTs = fromInteger <$> (char ' ' *> posInt)
     parseMsg = many <$> satisfy $ const True
 
