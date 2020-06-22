@@ -11,13 +11,13 @@ data JoinList m a = Empty
 
 
 (+++) :: Monoid m => JoinList m a -> JoinList m a -> JoinList m a
-(+++) = mappend 
+(+++) = mappend
 
 instance Monoid m => Monoid (JoinList m a) where
     mempty = Empty
 
 instance Monoid m => Semigroup (JoinList m a) where
-    (<>) a b = 
+    (<>) a b =
         let
             m1 = tag a
             m2 = tag b
@@ -32,7 +32,7 @@ instance (Sized b, Monoid b) => Sized (JoinList b a) where
   size = size . tag
 
 indexJ :: (Sized b, Monoid b) => Int -> JoinList b a -> Maybe a
-indexJ n jl | n > (getSize $ size jl) = Nothing
+indexJ n jl | n > getSize (size jl) = Nothing
 indexJ n (Append m a b) | sa < n = indexJ (n - sa) b
                         | otherwise =  indexJ n a
                         where sa = getSize $ size a
@@ -49,7 +49,7 @@ dropJ _ _  = Empty
 takeJ :: (Sized b, Monoid b) => Int -> JoinList b a -> JoinList b a
 takeJ _ Empty = Empty
 takeJ i a | i <= 0 = a
-takeJ i a | i > (getSize $ size a) = a
+takeJ i a | i > getSize (size a) = a
 takeJ i (Append m a b )
         | i < sa = takeJ i a
         | otherwise = a +++ takeJ ( i - sa) b
@@ -64,13 +64,13 @@ instance Foldable (JoinList m) where
     foldMap f (Append m a b) = mappend (foldMap f a) (foldMap f b)
 
 instance Buffer (JoinList (Score, Size) String) where
-    toString = foldr (++) [] 
-    line n b = indexJ n b
-    replaceLine n l b = takeJ (n-1) b +++ (Single (scoreString l, Size 1) l) +++ dropJ n b
+    toString = concat
+    line = indexJ
+    replaceLine n l b = takeJ (n-1) b +++ Single (scoreString l, Size 1) l +++ dropJ n b
     numLines = getSize . size
     value b = let (Score i) = (fst . tag) b in i
-    fromString ls = 
+    fromString ls =
         let joinlist l = Single (scoreString l, Size 1) l
         in foldr (mappend . joinlist) Empty (lines ls)
 
-  
+

@@ -33,7 +33,7 @@ instance Applicative (State s) where
 
 instance Alternative (State s) where
     empty = State $ const Nothing
-    State f <|> State g = State $ \s -> maybe (g s) Just (f s)
+    State f <|> State g = State $ \s -> f s <|> g s
 
 -- A parser threads some 'String' state through a computation that
 -- produces some value of type @a@.
@@ -41,7 +41,7 @@ type Parser a = State String a
 
 -- Parse one numerical digit.
 digit :: Parser Integer
-digit = State $ parseDigit
+digit = State parseDigit
     where parseDigit [] = Nothing
           parseDigit s@(c:cs)
               | isDigit c = Just (fromIntegral $ digitToInt c, cs)
@@ -54,7 +54,7 @@ num = maybe id (const negate) <$> optional (char '-') <*> (toInteger <$> some di
 
 -- Parse a single white space character.
 space :: Parser ()
-space = State $ parseSpace
+space = State parseSpace
     where parseSpace [] = Nothing
           parseSpace s@(c:cs)
               | isSpace c = Just ((), cs)
@@ -62,7 +62,7 @@ space = State $ parseSpace
 
 -- Consume zero or more white space characters.
 eatSpace :: Parser ()
-eatSpace = const () <$> many space
+eatSpace = () <$ many space
 
 -- Parse a specific character.
 char :: Char -> Parser Char
@@ -73,7 +73,7 @@ char c = State parseChar
 
 -- Parse one of our two supported operator symbols.
 op :: Parser (Expr -> Expr -> Expr)
-op = const Add <$> (char '+') <|> const Mul <$> (char '*')
+op = Add <$ char '+' <|> Mul <$ char '*'
 
 -- Succeed only if the end of the input has been reached.
 eof :: Parser ()

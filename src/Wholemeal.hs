@@ -3,10 +3,10 @@ module Wholemeal where
 import Data.List
 
 fun1 :: [Integer] -> Integer
-fun1 = product . map ((-) 2). filter even
+fun1 = product . map (2 -). filter even
 
 fun2 :: Integer -> Integer
-fun2 = 
+fun2 =
     let fn n = if even n then n `div` 2 else 3 * n + 1
     in sum . filter even . takeWhile (>1) . iterate fn
 
@@ -20,21 +20,21 @@ treeHeight Leaf = 0
 treeHeight (Node h _ _ _) = h
 
 foldTree :: [a] -> Tree a
-foldTree xs = foldr insert Leaf xs where 
+foldTree = foldr insert Leaf where
     insert a Leaf = Node 1 Leaf a Leaf
     insert a n@(Node h Leaf na Leaf) = Node (h + 1) n a Leaf
-    insert a n@(Node h l na r) 
+    insert a n@(Node h l na r)
         | hl > hr = Node h l a (insert a r)
         | hr > hl = Node h (insert a l) a r
         | otherwise = Node (nh + 1) newTree a r
         where
             hl = treeHeight l
             hr = treeHeight r
-            newTree = insert a l    
+            newTree = insert a l
             nh = treeHeight newTree
 
 xor :: [Bool] -> Bool
-xor = foldr (/=) False 
+xor = foldr (/=) False
 
 map' :: (a -> b) -> [a] -> [b]
-map' f xs = foldr (\x acc -> f x:acc) [] xs
+map' f = foldr (\x acc -> f x:acc) []

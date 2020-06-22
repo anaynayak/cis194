@@ -8,8 +8,8 @@ import Control.Applicative
 
 eval :: ExprT -> Integer
 eval (Lit a) = a
-eval (Add a b) = (eval a) + (eval b)
-eval (Mul a b) = (eval a) * (eval b)
+eval (Add a b) = eval a + eval b
+eval (Mul a b) = eval a * eval b
 
 evalStr :: String -> Maybe Integer
 evalStr = fmap eval . parseExp Lit Add Mul

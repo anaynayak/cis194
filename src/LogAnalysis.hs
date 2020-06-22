@@ -31,7 +31,7 @@ instance Ord LogMessage where
 
 insert :: LogMessage -> MessageTree -> MessageTree
 insert (Unknown _) m = m
-insert lm (Leaf) = Node Leaf lm Leaf
+insert lm Leaf = Node Leaf lm Leaf
 insert lm (Node l nlm r)    | lm > nlm = Node l nlm (insert lm r)
                             | otherwise = Node (insert lm l) nlm r
 
