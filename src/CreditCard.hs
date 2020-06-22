@@ -1,9 +1,9 @@
 module CreditCard where
 import Data.List
 import Data.Tuple
-    
+
 toDigits :: Integer -> [Integer]
-toDigits = 
+toDigits =
     let toDigits v = if v == 0 then Nothing else Just $ swap (divMod v 10)
     in reverse . unfoldr toDigits
 
@@ -16,7 +16,7 @@ doubleEveryOther = foldr double [] where
     double x xs = x * 2 : xs
 
 sumDigits :: [Integer] -> Integer
-sumDigits = sum . concat . (map toDigits) 
+sumDigits = sum . concatMap toDigits
 
 validate :: Integer -> Bool
-validate = (==0). ((flip mod) 10) . sumDigits . doubleEveryOther . toDigits
+validate = (==0). flip mod 10 . sumDigits . doubleEveryOther . toDigits

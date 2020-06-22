@@ -5,6 +5,7 @@ module Risk where
 import Control.Monad.Random
 import Data.List
 import qualified Data.Bifunctor as B
+import Data.Ord
 ------------------------------------------------------------
 -- Die values
 
@@ -30,16 +31,16 @@ data Battlefield = Battlefield { attackers :: Army, defenders :: Army } deriving
 
 eval :: Battlefield -> [DieValue] -> [DieValue] -> Battlefield
 eval bf a b = let
-  amoves = reverse . sort $ a
-  bmoves = reverse . sort $ b
-  (awins, bwins) = ((B.bimap length length) . partition id) $ zipWith (>) amoves bmoves
+  amoves = sortOn Down a
+  bmoves = sortOn Down b
+  (awins, bwins) = (B.bimap length length . partition id) $ zipWith (>) amoves bmoves
   in Battlefield (attackers bf - bwins) (defenders bf - awins)
 
 battle :: Battlefield -> Rand StdGen Battlefield
 battle b = let
-  attack = max 3 $ (attackers b - 1)
+  attack = max 3 (attackers b - 1)
   defend = min 2 $ defenders b
-  moves = (flip replicateM) die
+  moves = flip replicateM die
   in liftM2 (eval b) (moves attack) (moves defend)
 
 isOver :: Battlefield -> Bool

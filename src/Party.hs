@@ -30,4 +30,4 @@ maxFun = uncurry moreFun . treeFold nextLevel
 main :: IO ()
 main = readFile "company.txt" >>= (putStr . print . maxFun . read ) where
     print (GL es f) = (unlines . summary . sort . map empName) es
-        where summary = (++) ["Total fun: "  ++ (show f)]
+        where summary = (++) ["Total fun: "  ++ show f]
